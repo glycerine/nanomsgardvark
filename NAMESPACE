@@ -1,0 +1,17 @@
+useDynLib(rnanomsg)
+
+export(
+       nn.version,
+       nn.errno,
+       nn.strerror,
+       nn.socket,
+       nn.close,
+       nn.term,
+       nn.bind,
+       nn.connect,
+       nn.shutdown,
+       nn.getsockopt,
+       nn.setsockopt,
+       nn.send,
+       nn.recv
+       )
