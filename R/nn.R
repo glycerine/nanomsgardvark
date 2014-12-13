@@ -85,7 +85,7 @@ nn.recv <- function(socket, unserialize=TRUE, dont.wait=FALSE) {
 
 # generate distinguished constants used by nanomsg
 nn.genconst <- function() {
-  clist = c(list("nn.NS_NAMESPACE","NN_NS_NAMESPACE"),
+  clist = list(list("nn.NS_NAMESPACE","NN_NS_NAMESPACE"),
   list("nn.NS_VERSION","NN_NS_VERSION"),
   list("nn.NS_DOMAIN","NN_NS_DOMAIN"),
   list("nn.NS_TRANSPORT","NN_NS_TRANSPORT"),
@@ -108,8 +108,8 @@ nn.genconst <- function() {
   list("nn.VERSION_CURRENT","NN_VERSION_CURRENT"),
   list("nn.VERSION_REVISION","NN_VERSION_REVISION"),
   list("nn.VERSION_AGE","NN_VERSION_AGE"),
-  list("nn.AF_SP","NN_AF_SP"),
-  list("nn.AF_SP_RAW","NN_AF_SP_RAW"),
+  list("nn.AF_SP","AF_SP"),
+  list("nn.AF_SP_RAW","AF_SP_RAW"),
   list("nn.INPROC","NN_INPROC"),
   list("nn.IPC","NN_IPC"),
   list("nn.TCP","NN_TCP"),
