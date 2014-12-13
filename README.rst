@@ -34,9 +34,14 @@ execute this R script on the remote server::
 	#!/usr/bin/env Rscript
 	library(rnanomsg)
     s.rep <- nn.socket(nn.AF_SP, nn.REP)
-	nn.bind(s.req,"tcp://*:5555")
+    nn.clearerr()
+    rc = nn.bind(s.rep,"tcp://*:5555")
+    if (nn.is.bind.err(rc)) {
+       stop(paste("problem with nn.bind", nn.strerror()))
+    }
 	while(1) {
-	    msg = nn.recv(s.req);
+        nn.clearerr()
+	    msg = nn.recv(s.rep);
         if nn.is.recv.err(msg) {
            stop(paste("problem with nn.recv", nn.strerror()))
         }
@@ -44,7 +49,8 @@ execute this R script on the remote server::
 	    args <- msg$args
 	    print(args)
 	    ans <- do.call(fun,args)
-	    rc = nn.send(s.req,ans);
+        nn.clearerr()
+	    rc = nn.send(s.rep,ans);
         if nn.is.send.err(rc) {
            stop(paste("problem with nn.send", nn.strerror()))    
         }
@@ -55,14 +61,16 @@ and execute this bit locally::
 	library(rnanomsg)
 	
 	remote.exec <- function(socket,fun,...) {
-	    send.socket(socket,data=list(fun=fun,args=list(...)))
-	    receive.socket(socket)
+	    rc = nn.send(socket,data=list(fun=fun,args=list(...)))
+	    nn.recv(socket)
 	}
 	
-	substitute(expr)
     s.req <- nn.socket(nn.AF_SP, nn.REQ)
 
-	connect.socket(s.req,"tcp://localhost:5555")
-	
+    nn.clearerr()
+	rc = nn.connect(s.req,"tcp://localhost:5555")
+    if (nn.is.connect.err(rc)) {
+       stop(paste("problem with nn.connect", nn.strerror()))
+    }
 	ans <- remote.exec(s.req,sqrt,10000)
 	

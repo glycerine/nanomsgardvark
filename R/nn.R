@@ -110,6 +110,23 @@ nn.is.send.err <- function(ans) {
   }
 }
 
+nn.is.connect.err <- function(ans) {
+  if (ans < 0) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
+nn.is.bind.err <- function(ans) {
+  if (ans < 0) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
+
 
 # nn.genconst(): generate distinguished constants used by nanomsg
 # For convenience, these are exported in the NAMESPACE and
