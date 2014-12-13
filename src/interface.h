@@ -33,6 +33,7 @@ extern "C" {
   SEXP nn(SEXP name_);
   SEXP nnVersion();
   SEXP nnErrno();
+  SEXP nnClearErrno();
   SEXP nnStrerror();
   SEXP nnSocket(SEXP domain_, SEXP protocol_);
   SEXP nnClose(SEXP socket_);

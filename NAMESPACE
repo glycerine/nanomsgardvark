@@ -5,6 +5,7 @@ export(
        nn.version,
        nn.errno,
        nn.strerror,
+       nn.clearerr,
        nn.socket,
        nn.close,
        nn.term,

@@ -30,6 +30,10 @@ nn.errno <- function() {
     .Call("nnErrno", PACKAGE="rnanomsg")
 }
 
+nn.clearerr <- function() {
+  invisible(.Call("nnClearErrno", PACKAGE="rnanomsg"))
+}
+
 nn.strerror <- function() {
     .Call("nnStrerror", PACKAGE="rnanomsg")
 }
@@ -39,7 +43,7 @@ nn.socket <- function(domain, socket.type) {
 }  
 
 nn.close <- function(socket) {
-  .Call("nnClose", socket, PACKAGE="rnanomsg")
+  invisible(.Call("nnClose", socket, PACKAGE="rnanomsg"))
 }  
 
 nn.term <- function() {
@@ -66,12 +70,12 @@ nn.setsockopt <- function(socket, level, option, optval) {
     invisible(.Call("nnSetSockOpt", socket, level, option, optval, PACKAGE="rnanomsg"))
 }
 
-nn.send <- function(socket, data, send.more=FALSE, serialize=TRUE) {
+nn.send <- function(socket, data, dont.wait=FALSE, serialize=TRUE) {
     if(serialize) {
         data <- serialize(data,NULL)
     }
 
-    invisible(.Call("sendSocket", socket, data, send.more, PACKAGE="rnanomsg"))
+    invisible(.Call("nnSend", socket, data, dont.wait, PACKAGE="rnanomsg"))
 }
 
 nn.recv <- function(socket, unserialize=TRUE, dont.wait=FALSE) {

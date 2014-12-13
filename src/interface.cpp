@@ -22,6 +22,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string.h>
+#include <stdlib.h>
 #include "nanomsg/nn.h"
 #include "nanomsg/pair.h"
 #include "nanomsg/pubsub.h"
@@ -57,6 +58,12 @@ SEXP nnErrno() {
   UNPROTECT(1);
   return ans;
 }
+
+SEXP nnClearErrno() {
+  errno = 0;
+  return R_NilValue;
+}
+
 
 SEXP nnStrerror() {
   SEXP ans; PROTECT(ans = allocVector(STRSXP,1));
