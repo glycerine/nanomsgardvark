@@ -1,5 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////
-// Copyright (C) 2011  Whit Armstrong                                    //
+// Copyright (C) 2014 Jason E. Aten                                      //
+//   derived from rzmq code that is copyright (C) 2011 Whit Armstrong    //   
+//   and available under the GPL-3 as well.                              //
 //                                                                       //
 // This program is free software: you can redistribute it and/or modify  //
 // it under the terms of the GNU General Public License as published by  //
@@ -170,8 +172,29 @@ int symbol_string_to_int(const std::string s) {
   if (s == "ENETRESET") { return ENETRESET; }
   if (s == "ENETUNREACH") { return ENETUNREACH; }
   if (s == "ENOTCONN") { return ENOTCONN; }
-  return -1;
+  return -1000;
 }
+
+SEXP nn(SEXP str_) {
+  SEXP ans; 
+
+  if(TYPEOF(str_) != STRSXP) {
+    REprintf("argument to nn() must be a string to be decoded to its integer constant value in the nanomsg pkg.\n");
+    return R_NilValue;
+  }
+
+  PROTECT(ans = allocVector(INTSXP,1));
+  const char* s = CHAR(STRING_ELT(str_,0));
+  int rc = symbol_string_to_int(s);
+  INTEGER(ans)[0] = rc;
+  UNPROTECT(1);
+  if (rc == -1000) {
+    REprintf("error: could not translate string '%s' to nanomsg constant.\n", s);
+    return R_NilValue;
+  }
+  return ans;
+}
+
 
 int string_to_domain_type(const std::string s) {
   if (s == "AF_SP") { return AF_SP; }

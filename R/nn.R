@@ -17,6 +17,10 @@
 ## along with this program.  If not, see <http:##www.gnu.org#licenses#>. ##
 ###########################################################################
 
+nn <- function(name) {
+    .Call("nn", name, PACKAGE="rnanomsg")
+}
+
 nn.version <- function() {
     .Call("nnVersion", PACKAGE="rnanomsg")
 }
@@ -28,7 +32,6 @@ nn.errno <- function() {
 nn.strerror <- function() {
     .Call("nnStrerror", PACKAGE="rnanomsg")
 }
-
 
 nn.socket <- function(domain, socket.type) {
   .Call("nnSocket", domain, socket.type, PACKAGE="rnanomsg")

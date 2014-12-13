@@ -1,6 +1,7 @@
 useDynLib(rnanomsg)
 
 export(
+       nn,
        nn.version,
        nn.errno,
        nn.strerror,

@@ -1,6 +1,8 @@
 // -*- mode: C++; c-indent-level: 2; c-basic-offset: 2; tab-width: 8 -*-
 ///////////////////////////////////////////////////////////////////////////
-// Copyright (C) 2011  Whit Armstrong                                    //
+// Copyright (C) 2014 Jason E. Aten                                      //
+//   derived from rzmq code that is copyright (C) 2011 Whit Armstrong    //   
+//   and available under the GPL-3 as well.                              //
 //                                                                       //
 // This program is free software: you can redistribute it and/or modify  //
 // it under the terms of the GNU General Public License as published by  //
@@ -24,8 +26,8 @@
 
 //static void contextFinalizer(SEXP context_);
 //static void socketFinalizer(SEXP socket_);
-//SEXP nn_serialize(SEXP data, SEXP rho);
-//SEXP nn_unserialize(SEXP data, SEXP rho);
+//SEXP nnSerialize(SEXP data, SEXP rho);
+//SEXP nnUnserialize(SEXP data, SEXP rho);
 
 extern "C" {
   SEXP nnVersion();
