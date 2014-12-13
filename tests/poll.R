@@ -21,7 +21,7 @@ test.rnanomsg.poll.basic <- function() {
     nn.bind(s.rep, test.ENDPOINT)
     nn.connect(s.req, test.ENDPOINT)
 
-    pollrc <- nn.recv(list(s.rep), list("read"), timeout=0L)
+    pollrc <- nn.recv(s.rep, unserialize=TRUE, dont.wait = TRUE)
     assert(pollrc[[1]]$read == FALSE, "Poll should return $read==FALSE")
 
     send.socket(s.req, "Hello")

@@ -580,13 +580,17 @@ SEXP nnRecv(SEXP socket_, SEXP dont_wait_) {
     REprintf("dont_wait type must be logical (LGLSXP).\n");
     return R_NilValue;
   }
-  int flags = LOGICAL(dont_wait_)[0];
+  int dont_wait = LOGICAL(dont_wait_)[0];
 
   void* buf;
-  int msglen = nn_recv(INTEGER(socket_)[0], &buf, NN_MSG, flags);
-  if(msglen < 0) {
-    error("error in nnRecv(): '%s'.\n", nn_strerror(nn_errno()));
-    return R_NilValue;
+  int msglen = nn_recv(INTEGER(socket_)[0], &buf, NN_MSG, dont_wait);
+  if (msglen < 0) {
+    if (dont_wait && nn_errno() == EAGAIN) {
+      // ok fine, just try again.
+    } else {
+      error("error in nnRecv(): '%s'.\n", nn_strerror(nn_errno()));
+      return R_NilValue;
+    }
   }
 
   PROTECT(ans = allocVector(RAWSXP,msglen));
