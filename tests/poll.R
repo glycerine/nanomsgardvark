@@ -3,11 +3,11 @@ library(rnanomsg)
 # nanomsg inproc endpoint to use in tests cases.
 
 # nn.recv(dont.wait=TRUE) returns duplicate messages with inproc transport
-#test.ENDPOINT <- "inproc://poll"
+test.ENDPOINT <- "inproc://poll"
 
 # nn.recv(dont.wait=TRUE) works with fine with ipc and tcp
 #test.ENDPOINT <- "ipc:///tmp/test.ipc"
-test.ENDPOINT <- "tcp://127.0.0.1:5556"
+#test.ENDPOINT <- "tcp://127.0.0.1:5556"
 
 # Testing helpers.
 assert <- function(condition, message="Assertion Failed") if(!condition) stop(message)
