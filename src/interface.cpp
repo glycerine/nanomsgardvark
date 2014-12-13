@@ -246,7 +246,7 @@ SEXP nnSocket(SEXP domain_, SEXP protocol_) {
     REprintf("domain (1st arg) has unrecongized type. Acceptable: nn.AF_SP and nn.AF_SP_RAW are available.\n");
     return R_NilValue;
   }
-  domain_type = int(REAL(domain_)[0]);
+  domain_type = int(INTEGER(domain_)[0]);
 
   if(domain_type < 0) {
     REprintf("bad domain value (1st arg). Acceptable: nn.AF_SP and nn.AF_SP_RAW are available.\n");
