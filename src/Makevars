@@ -1,5 +1,5 @@
 ## -*- mode: makefile; -*-
 
 CXX_STD = CXX11
-PKG_CPPFLAGS = -I../inst/nanomsg
+PKG_CPPFLAGS = -I../inst/nanomsg -I../inst/nanomsg/src  -I../inst/nanomsg/src/util  -I../inst/nanomsg/src/transports/utils
 PKG_LIBS = -lnanomsg

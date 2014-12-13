@@ -19,7 +19,23 @@
 #include <string>
 #include <sstream>
 #include <stdexcept>
+#include <string.h>
 #include "nanomsg/nn.h"
+#include "nanomsg/pair.h"
+#include "nanomsg/pubsub.h"
+#include "nanomsg/bus.h"
+#include "nanomsg/inproc.h"
+#include "nanomsg/ipc.h"
+#include "nanomsg/nn.h"
+#include "nanomsg/pair.h"
+#include "nanomsg/pipeline.h"
+#include "nanomsg/pubsub.h"
+#include "nanomsg/reqrep.h"
+#include "nanomsg/survey.h"
+#include "nanomsg/tcp.h"
+#include "nanomsg/transport.h"
+
+
 #include "interface.h"
 
 SEXP nnVersion() {
@@ -169,7 +185,7 @@ SEXP nnClose(SEXP socket_) {
       error("nnClose socket_ must be an integer.");
   }
   SEXP ans; PROTECT(ans = allocVector(INTSXP,1));
-  INTEGER(ans)[0] = nn_close(INTEGER_ELT(socket_,0));
+  INTEGER(ans)[0] = nn_close(INTEGER(socket_)[0]);
   UNPROTECT(1);
   return ans;
 }
@@ -221,7 +237,7 @@ SEXP nnBind(SEXP socket_, SEXP address_) {
   }
 
   PROTECT(ans = allocVector(INTSXP,1)); 
-  INTEGER(ans)[0] = nn_bind(INTEGER_ELT(socket_,0), CHAR(STRING_ELT(address_,0)));
+  INTEGER(ans)[0] = nn_bind(INTEGER(socket_)[0], CHAR(STRING_ELT(address_,0)));
   UNPROTECT(1);
   return ans;
 }
@@ -345,7 +361,7 @@ SEXP nnConnect(SEXP socket_, SEXP address_) {
   }
 
   PROTECT(ans = allocVector(INTSXP,1)); 
-  INTEGER(ans)[0] = nn_connect(INTEGER_ELT(socket_,0), CHAR(STRING_ELT(address_,0)));
+  INTEGER(ans)[0] = nn_connect(INTEGER(socket_)[0], CHAR(STRING_ELT(address_,0)));
   UNPROTECT(1);
   return ans;
 }
@@ -365,7 +381,7 @@ SEXP nnShutdown(SEXP socket_, SEXP how_) {
   }
 
   PROTECT(ans = allocVector(INTSXP,1)); 
-  INTEGER(ans)[0] = nn_shutdown(INTEGER_ELT(socket_,0), CHAR(STRING_ELT(how_,0)));
+  INTEGER(ans)[0] = nn_shutdown(INTEGER(socket_)[0], INTEGER(how_)[0]);
   UNPROTECT(1);
   return ans;
 }
@@ -384,7 +400,7 @@ SEXP nnSetSockOpt(SEXP socket_, SEXP level_, SEXP option_, SEXP optval_) {
 
   // level
   if(TYPEOF(level_) == INTSXP) {
-    level = INTEGER_ELT(level_,0);
+    level = INTEGER(level_)[0];
 
   } else if (TYPEOF(level_) == STRSXP) {
     level = symbol_string_to_int(CHAR(STRING_ELT(level_,0)));
@@ -399,7 +415,7 @@ SEXP nnSetSockOpt(SEXP socket_, SEXP level_, SEXP option_, SEXP optval_) {
 
   // option
   if(TYPEOF(option_) == INTSXP) {
-    option = INTEGER_ELT(option_,0);
+    option = INTEGER(option_)[0];
 
   } else if (TYPEOF(option_) == STRSXP) {
     option = symbol_string_to_int(CHAR(STRING_ELT(option_,0)));
@@ -414,14 +430,14 @@ SEXP nnSetSockOpt(SEXP socket_, SEXP level_, SEXP option_, SEXP optval_) {
 
   // optval
   if(TYPEOF(optval_) == INTSXP) {
-    optval = INTEGER_ELT(optval_,0);
+    optval = INTEGER(optval_)[0];
   } else {
     REprintf("optval must be an integer (the *NN_SOCKET_NAME* option is not supported in rnanomsg).\n");
     return R_NilValue;
   }
 
   PROTECT(ans = allocVector(INTSXP,1)); 
-  INTEGER(ans)[0] = nn_setsockopt(INTEGER_ELT(socket_,0), level, option, &optval, optvallen);
+  INTEGER(ans)[0] = nn_setsockopt(INTEGER(socket_)[0], level, option, &optval, optvallen);
   UNPROTECT(1);
   return ans;
 }
@@ -444,7 +460,7 @@ SEXP nnGetSockOpt(SEXP socket_, SEXP level_, SEXP option_) {
 
   // level
   if(TYPEOF(level_) == INTSXP) {
-    level = INTEGER_ELT(level_,0);
+    level = INTEGER(level_)[0];
 
   } else if (TYPEOF(level_) == STRSXP) {
     level = symbol_string_to_int(CHAR(STRING_ELT(level_,0)));
@@ -459,7 +475,7 @@ SEXP nnGetSockOpt(SEXP socket_, SEXP level_, SEXP option_) {
 
   // option
   if(TYPEOF(option_) == INTSXP) {
-    option = INTEGER_ELT(option_,0);
+    option = INTEGER(option_)[0];
 
   } else if (TYPEOF(option_) == STRSXP) {
     option = symbol_string_to_int(CHAR(STRING_ELT(option_,0)));
@@ -477,7 +493,7 @@ SEXP nnGetSockOpt(SEXP socket_, SEXP level_, SEXP option_) {
   }
 
   PROTECT(ans = allocVector(INTSXP,1)); 
-  rc = nn_getsockopt(INTEGER_ELT(socket_,0), level, option, &optval, optvallen);
+  rc = nn_getsockopt(INTEGER(socket_)[0], level, option, &optval, &optvallen);
   if (rc == -1) {
     UNPROTECT(1);
     error("error in nnGetSockOpt(): '%s'.\n", nn_strerror(nn_errno()));
@@ -509,9 +525,9 @@ SEXP nnSend(SEXP socket_, SEXP data_, SEXP dont_wait_) {
   }
 
   PROTECT(ans = allocVector(INTSXP,1));
-  int rc = nn_send(INTEGER_ELT(socket_,0), RAW(data_), length(data_), flags);
+  int rc = nn_send(INTEGER(socket_)[0], RAW(data_), length(data_), flags);
   if(rc < 0) {
-    if flags && nn_errno() == EAGAIN {
+    if (flags && nn_errno() == EAGAIN) {
       // ok fine, just try again.
     } else {
       error("error in nnSend(): '%s'.\n", nn_strerror(nn_errno()));
@@ -540,7 +556,7 @@ SEXP nnRecv(SEXP socket_, SEXP dont_wait_) {
   int flags = LOGICAL(dont_wait_)[0];
 
   void* buf;
-  int msglen = nn_recv(INTEGER_ELT(socket_,0), &buf, NN_MSG, flags);
+  int msglen = nn_recv(INTEGER(socket_)[0], &buf, NN_MSG, flags);
   if(msglen < 0) {
     error("error in nnRecv(): '%s'.\n", nn_strerror(nn_errno()));
     return R_NilValue;
