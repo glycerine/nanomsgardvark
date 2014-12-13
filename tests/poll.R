@@ -1,4 +1,4 @@
-library(rzmq)
+library(rnanomsg)
 
 # ZMQ inproc endpoint to use in tests cases.
 test.ENDPOINT <- "inproc://poll"
@@ -14,19 +14,18 @@ assert.fails <- function(expr, message="Assertion Failed") {
 powerset <- function(x) do.call(c, Map(function(n) combn(x, n, simplify=FALSE), 1:length(x)))
 
 # A basic test of poll functionality.
-test.rzmq.poll.basic <- function() {
-    ctx <- init.context()
-    s.rep <- init.socket(ctx, "ZMQ_REP")
-    s.req <- init.socket(ctx, "ZMQ_REQ")
+test.rnanomsg.poll.basic <- function() {
+    s.rep <- nn.socket(nn.AF_SP, nn.REP)
+    s.req <- nn.socket(nn.AF_SP, nn.REQ)
 
-    bind.socket(s.rep, test.ENDPOINT)
-    connect.socket(s.req, test.ENDPOINT)
+    nn.bind(s.rep, test.ENDPOINT)
+    nn.connect(s.req, test.ENDPOINT)
 
-    pollrc <- poll.socket(list(s.rep), list("read"), timeout=0L)
+    pollrc <- nn.recv(list(s.rep), list("read"), timeout=0L)
     assert(pollrc[[1]]$read == FALSE, "Poll should return $read==FALSE")
 
     send.socket(s.req, "Hello")
-    pollrc <- poll.socket(list(s.rep), list("read"), timeout=0L)
+    pollrc <- nn.recv(list(s.rep), list("read"), timeout=0L)
     assert(pollrc[[1]]$read == TRUE, "Poll should return $read==TRUE")
 
     receive.socket(s.rep)
@@ -36,7 +35,7 @@ test.rzmq.poll.basic <- function() {
 
 # Ensures that poll fails when supplied with invalid
 # arguments.
-test.rzmq.poll.invalidargs <- function() {
+test.rnanomsg.poll.invalidargs <- function() {
     ctx <- init.context()
     s.rep <- init.socket(ctx, "ZMQ_REP")
     bind.socket(s.rep, test.ENDPOINT)
@@ -49,9 +48,8 @@ test.rzmq.poll.invalidargs <- function() {
 
 # Tests the powerset of {read, write, error} to ensure
 # poll returns the correct flags.
-test.rzmq.poll.returntypes <- function() {
-    ctx <- init.context()
-    s.rep <- init.socket(ctx, "ZMQ_REP")
+test.rnanomsg.poll.returntypes <- function() {
+    s.rep <- nn.socket(ctx, "ZMQ_REP")
     bind.socket(s.rep, test.ENDPOINT)
 
     combinations <- powerset(c("read", "write", "error"))
@@ -64,6 +62,6 @@ test.rzmq.poll.returntypes <- function() {
 }
 
 # Run tests.
-test.rzmq.poll.basic()
-test.rzmq.poll.invalidargs()
-test.rzmq.poll.returntypes()
+test.rnanomsg.poll.basic()
+test.rnanomsg.poll.invalidargs()
+test.rnanomsg.poll.returntypes()
