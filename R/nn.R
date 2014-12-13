@@ -84,8 +84,10 @@ nn.recv <- function(socket, unserialize=TRUE, dont.wait=FALSE) {
 }
 
 # nn.genconst(): generate distinguished constants used by nanomsg
-# We do this dynamically to ensure we are always
-# in sync with the C source code being invoked.
+# For convenience, these are exported in the NAMESPACE and
+#  defined below.
+# This function allows you to confirm that those constants
+#  are indeed up to date.
 #
 nn.genconst <- function() {
   clist = list(list("nn.NS_NAMESPACE","NN_NS_NAMESPACE"),
