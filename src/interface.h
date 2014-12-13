@@ -30,6 +30,7 @@
 //SEXP nnUnserialize(SEXP data, SEXP rho);
 
 extern "C" {
+  SEXP nn(SEXP name_);
   SEXP nnVersion();
   SEXP nnErrno();
   SEXP nnStrerror();
