@@ -558,7 +558,7 @@ SEXP nnSend(SEXP socket_, SEXP data_, SEXP dont_wait_) {
   int rc = nn_send(INTEGER(socket_)[0], RAW(data_), length(data_), flags);
   if(rc < 0) {
     if (flags && nn_errno() == EAGAIN) {
-      // ok fine, just try again.
+      // ok fine, just try again later.
     } else {
       error("error in nnSend(): '%s'.\n", nn_strerror(nn_errno()));
       UNPROTECT(1);
@@ -586,7 +586,15 @@ SEXP nnRecv(SEXP socket_, SEXP dont_wait_) {
   int msglen = nn_recv(INTEGER(socket_)[0], &buf, NN_MSG, dont_wait);
   if (msglen < 0) {
     if (dont_wait && nn_errno() == EAGAIN) {
-      // ok fine, just try again.
+      // ok fine, just try again later
+
+      // gotta return an error value, INTSXP lets
+      // us know on the R side that we got an error
+      PROTECT(ans = allocVector(INTSXP,1));
+      INTEGER(ans)[0] = msglen;
+      UNPROTECT(1);
+      return ans;
+
     } else {
       error("error in nnRecv(): '%s'.\n", nn_strerror(nn_errno()));
       return R_NilValue;

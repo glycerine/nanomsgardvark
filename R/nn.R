@@ -77,6 +77,12 @@ nn.send <- function(socket, data, send.more=FALSE, serialize=TRUE) {
 nn.recv <- function(socket, unserialize=TRUE, dont.wait=FALSE) {
     ans <- .Call("nnRecv", socket, dont.wait, PACKAGE="rnanomsg")
 
+    if (!is.null(ans) && is.integer(ans)) {
+      # we get integers back on error, probably EAGAIN.
+      return(ans)
+    }
+
+    # on success we can RAWSXP bytes back
     if(!is.null(ans) && unserialize) {
         ans <- unserialize(ans)
     }
