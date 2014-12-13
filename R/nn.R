@@ -31,11 +31,11 @@ nn.strerror <- function() {
 
 
 nn.socket <- function(domain, socket.type) {
-  .Call("nnSocket", domain, socket.type, PACKAGE="rzmq")
+  .Call("nnSocket", domain, socket.type, PACKAGE="rnanomsg")
 }  
 
 nn.close <- function(socket) {
-  .Call("nnClose", socket, PACKAGE="rzmq")
+  .Call("nnClose", socket, PACKAGE="rnanomsg")
 }  
 
 nn.term <- function() {
@@ -70,7 +70,7 @@ nn.send <- function(socket, data, send.more=FALSE, serialize=TRUE) {
     invisible(.Call("sendSocket", socket, data, send.more, PACKAGE="rnanomsg"))
 }
 
-nn.recv <- function(socket, unserialize=TRUE,dont.wait=FALSE) {
+nn.recv <- function(socket, unserialize=TRUE, dont.wait=FALSE) {
     ans <- .Call("nnRecv", socket, dont.wait, PACKAGE="rnanomsg")
 
     if(!is.null(ans) && unserialize) {
