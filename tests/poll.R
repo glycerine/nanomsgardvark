@@ -1,7 +1,13 @@
 library(rnanomsg)
 
-# ZMQ inproc endpoint to use in tests cases.
-test.ENDPOINT <- "inproc://poll"
+# nanomsg inproc endpoint to use in tests cases.
+
+# nn.recv(dont.wait=TRUE) returns duplicate messages with inproc transport
+#test.ENDPOINT <- "inproc://poll"
+
+# nn.recv(dont.wait=TRUE) works with fine with ipc and tcp
+#test.ENDPOINT <- "ipc:///tmp/test.ipc"
+test.ENDPOINT <- "tcp://127.0.0.1:5556"
 
 # Testing helpers.
 assert <- function(condition, message="Assertion Failed") if(!condition) stop(message)
@@ -16,8 +22,11 @@ test.rnanomsg.poll.basic <- function() {
     s.rep <- nn.socket(nn.AF_SP, nn.REP)
     s.req <- nn.socket(nn.AF_SP, nn.REQ)
 
-    nn.bind(s.rep, test.ENDPOINT)
-    nn.connect(s.req, test.ENDPOINT)
+    rc = nn.bind(s.rep, test.ENDPOINT)
+    assert(rc > 0, "nn.bind() should return positive endpoint id")
+
+    rc = nn.connect(s.req, test.ENDPOINT)
+    assert(rc > 0, "nn.connect() should return positive endpoint id")
 
     pollrc <- nn.recv(s.rep, unserialize=TRUE, dont.wait = TRUE)
     assert(pollrc == -1, "nn.recv() should return -1")
@@ -37,8 +46,10 @@ test.rnanomsg.poll.basic <- function() {
     assert(pollrc == -1, "nn.recv() should return -1")
     assert(nn.strerror() == "Resource temporarily unavailable", "nn.strerror() should return 'Resource temporarily unavailable'")
 
-    nn.close(s.rep)
-    nn.close(s.req)
+    rc = nn.close(s.rep)
+    assert(rc == 0, "nn.close() should return 0")
+    rc = nn.close(s.req)
+    assert(rc == 0, "nn.close() should return 0")
 }
 
 
