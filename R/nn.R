@@ -93,6 +93,24 @@ nn.recv <- function(socket, unserialize=TRUE, dont.wait=FALSE) {
     ans
 }
 
+# convenience function for checking if receive succeded or failed.
+nn.is.recv.err <- function(ans) {
+  if (!is.null(ans) && is.integer(ans)) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
+nn.is.send.err <- function(ans) {
+  if (ans < 0) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
+
 # nn.genconst(): generate distinguished constants used by nanomsg
 # For convenience, these are exported in the NAMESPACE and
 #  defined below.

@@ -6,7 +6,7 @@ Introduction
 :Authors: Jason E. Aten
 :Contact: j.e.aten@gmail.com
 :Web site: http://github.com/glycerine/rnanomsg
-:License: GPL-2
+:License: GPL-3
 
 
 Purpose
@@ -14,7 +14,7 @@ Purpose
 
 rnanomsg is an R binding for Nanomsg (http://nanomsg.org/).
 
-The rzmq bindings by Whit Armstrong served as a template when writing these Nanomsg bindings.
+The rzmq bindings by Whit Armstrong served as major inspiration when writing these Nanomsg bindings.
 (https://github.com/armstrtw/rzmq). Some of the docs/etc might not be ported from zmq to nanomsg yet.
 
 Features
@@ -33,16 +33,21 @@ execute this R script on the remote server::
 	
 	#!/usr/bin/env Rscript
 	library(rnanomsg)
-	context = init.context()
-	socket = init.socket(context,"ZMQ_REP")
-	bind.socket(socket,"tcp://*:5555")
+    s.rep <- nn.socket(nn.AF_SP, nn.REP)
+	nn.bind(s.req,"tcp://*:5555")
 	while(1) {
-	    msg = receive.socket(socket);
+	    msg = nn.recv(s.req);
+        if nn.is.recv.err(msg) {
+           stop(paste("problem with nn.recv", nn.strerror()))
+        }
 	    fun <- msg$fun
 	    args <- msg$args
 	    print(args)
 	    ans <- do.call(fun,args)
-	    send.socket(socket,ans);
+	    rc = nn.send(s.req,ans);
+        if nn.is.send.err(rc) {
+           stop(paste("problem with nn.send", nn.strerror()))    
+        }
 	}
 	
 and execute this bit locally::
@@ -55,9 +60,9 @@ and execute this bit locally::
 	}
 	
 	substitute(expr)
-	context = init.context()
-	socket = init.socket(context,"ZMQ_REQ")
-	connect.socket(socket,"tcp://localhost:5555")
+    s.req <- nn.socket(nn.AF_SP, nn.REQ)
+
+	connect.socket(s.req,"tcp://localhost:5555")
 	
-	ans <- remote.exec(socket,sqrt,10000)
+	ans <- remote.exec(s.req,sqrt,10000)
 	
