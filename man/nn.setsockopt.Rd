@@ -121,5 +121,9 @@ timeout.msec = 10
 nn.setsockopt(socket, nn.SOL_SOCKET, nn.SNDTIMEO, timeout.msec)
 nn.setsockopt(socket, nn.SOL_SOCKET, nn.RCVTIMEO, timeout.msec)
 
+# read back the values set
+nn.getsockopt(socket, nn.SOL_SOCKET, nn.SNDTIMEO)
+nn.getsockopt(socket, nn.SOL_SOCKET, nn.RCVTIMEO)
+
 }}
 \keyword{utilities}
