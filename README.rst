@@ -6,7 +6,7 @@ Introduction
 :Authors: Jason E. Aten, Ph.D.
 :Contact: j.e.aten@gmail.com
 :Web site: http://github.com/glycerine/rnanomsg
-:License: GPL-3
+:License: GPL-3 for rnanomsg. MIT for nanomsg.
 
 
 Purpose
@@ -14,13 +14,12 @@ Purpose
 
 rnanomsg is an R binding for Nanomsg (http://nanomsg.org/).
 
-The rzmq bindings by Whit Armstrong served as major inspiration when writing these Nanomsg bindings.
-(https://github.com/armstrtw/rzmq). Some of the docs/etc might not be ported from zmq to nanomsg yet.
+rnanomsg was initially derived from the rzmq bindings for ZeroMQ by Whit Armstrong (https://github.com/armstrtw/rzmq). While rnanomsg has diverged significantly, some (most) of the docs are yet to be ported from zmq to nanomsg yet. In general the rnanomsg calls match the original nanomsg C calls exactly, so the nanomsg documentation is most useful.
 
 Features
 ========
 
-rnanomsg is a message queue for serialized R objects.
+rnanomsg is a network transport for serialized R (or other data) objects.
 
 
 
