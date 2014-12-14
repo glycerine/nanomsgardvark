@@ -475,7 +475,7 @@ SEXP nnSetSockOpt(SEXP socket_, SEXP level_, SEXP option_, SEXP optval_) {
   if(TYPEOF(optval_) == INTSXP) {
     optval = INTEGER(optval_)[0];
   } else {
-    REprintf("optval must be an integer (the *NN_SOCKET_NAME* option is not supported in rnanomsg).\n");
+    REprintf("optval must be an integer (the *NN_SOCKET_NAME* option is not supported in ardvark).\n");
     return R_NilValue;
   }
 
@@ -528,7 +528,7 @@ SEXP nnGetSockOpt(SEXP socket_, SEXP level_, SEXP option_) {
     return R_NilValue;
   }
   if (option == NN_SOCKET_NAME || option == NN_DOMAIN || option == NN_PROTOCOL) {
-    REprintf("only integer option getting is supported in rnanomsg in nnGetSockOpt().\n");
+    REprintf("only integer option getting is supported in ardvark in nnGetSockOpt().\n");
     return R_NilValue;
   }
 

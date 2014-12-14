@@ -5,21 +5,23 @@ Introduction
 :Date: Dec 13, 2014
 :Authors: Jason E. Aten, Ph.D.
 :Contact: j.e.aten@gmail.com
-:Web site: http://github.com/glycerine/rnanomsg
-:License: GPL-3 for rnanomsg. MIT for nanomsg.
+:Web site: http://github.com/glycerine/ardvark
+:License: GPL-3 for ardvark. MIT for nanomsg.
 
 
 Purpose
 =======
 
-rnanomsg is an R binding for nanomsg (http://nanomsg.org/).
+ardvark is an R binding for nanomsg (http://nanomsg.org/).
 
-rnanomsg was initially derived from the rzmq bindings for ZeroMQ by Whit Armstrong (https://github.com/armstrtw/rzmq). While rnanomsg has diverged significantly, some (most) of the docs are yet to be ported from zmq to nanomsg yet. In general the rnanomsg calls match the original nanomsg C calls exactly, so the nanomsg documentation (http://nanomsg.org/documentation.html) is extremely relevant and most useful.
+ardvark was initially derived from the rzmq bindings for ZeroMQ by Whit Armstrong (https://github.com/armstrtw/rzmq). While ardvark has diverged significantly, some (most) of the docs are yet to be ported from zmq to nanomsg yet. In general the ardvark calls match the original nanomsg C calls exactly, so the nanomsg documentation (http://nanomsg.org/documentation.html) is extremely relevant and most useful.
+
+Update: I originally named this project rnanomsg, before I realized that Matt Howlett had already started on R bindings (https://github.com/mhowlett/rnanomsg). I renamed the project ardvark after this discovery.
 
 Features
 ========
 
-rnanomsg is a network transport for serialized R (or other data) objects.
+ardvark is a network transport (over nanomsg) for serialized R (or other data) objects.
 
 
 
@@ -31,7 +33,7 @@ A minimal example of sending code for remote execution.
 execute this R script on the remote server::
     
     #!/usr/bin/env Rscript
-    library(rnanomsg)
+    library(ardvark)
     s.rep <- nn.socket(nn.AF_SP, nn.REP)
     nn.clearerr()
     rc = nn.bind(s.rep,"tcp://*:5555")
@@ -59,7 +61,7 @@ execute this R script on the remote server::
     
 and execute this bit locally::
 
-    library(rnanomsg)
+    library(ardvark)
     
     remote.exec <- function(socket,fun,...) {
         rc = nn.send(socket,data=list(fun=fun,args=list(...)))

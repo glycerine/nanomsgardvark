@@ -54,7 +54,7 @@ http://nanomsg.org
 }
 \author{
 nanomsg was written by Martin Sustrik <sustrik@250bpm.com>.
-rnanomsg was written by Jason E. Aten.
+ardvark was written by Jason E. Aten.
 }
 
 
@@ -63,7 +63,7 @@ rnanomsg was written by Jason E. Aten.
 }
 \examples{\dontrun{
 
-library(rnanomsg)
+library(ardvark)
 in.socket = nn.socket(nn.AF_SP, nn.PULL)
 rc = nn.bind(in.socket,"tcp://*:5557")
 if (nn.is.bind.err(rc)) {
