@@ -11,7 +11,7 @@ nn.SOL_SOCKET level. For socket-type-specific options use socket type
 for 'level' argument (e.g. nn.SUB). For transport-specific options use ID of
 the transport as the 'level' argument (e.g. nn.TCP).
 
-Only integer options cn be requested. Querying the nn.SOCKET_NAME
+Only integer options can be requested. Querying the nn.SOCKET_NAME
 (NN_SOCKET_NAME) value is not supported.
 
 <nanomsg/nn.h> header defines generic socket-level options
