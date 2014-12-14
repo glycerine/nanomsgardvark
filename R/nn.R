@@ -18,10 +18,6 @@
 ## along with this program.  If not, see <http:##www.gnu.org#licenses#>. ##
 ###########################################################################
 
-nn <- function(name) {
-    .Call("nn", name, PACKAGE="rnanomsg")
-}
-
 nn.version <- function() {
     .Call("nnVersion", PACKAGE="rnanomsg")
 }
@@ -126,7 +122,10 @@ nn.is.bind.err <- function(ans) {
   }
 }
 
-
+# nn() simply looks up integer constants in the nanomsg library.
+nn <- function(name) {
+    .Call("nn", name, PACKAGE="rnanomsg")
+}
 
 # nn.genconst(): generate distinguished constants used by nanomsg
 # For convenience, these are exported in the NAMESPACE and
