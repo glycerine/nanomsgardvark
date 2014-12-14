@@ -42,7 +42,7 @@ the values defined below.
 }
 
 \usage{
-nn.bind(socket, address)
+nn.nn.bind, address)
 }
 \arguments{
   \item{socket}{a nanomsg socket object.}

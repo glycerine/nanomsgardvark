@@ -22,7 +22,7 @@ heterogeneous endpoints.
 
 }
 \usage{
-nn.connect(socket, address)
+nn.nn.connect, address)
 }
 
 \arguments{

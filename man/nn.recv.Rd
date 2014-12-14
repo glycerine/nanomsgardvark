@@ -1,5 +1,5 @@
-\name{receive.socket}
-\alias{receive.socket}
+\name{nn.recv}
+\alias{nn.recv}
 \alias{receive.null.msg}
 \alias{receive.string}
 \alias{receive.int}
@@ -14,11 +14,11 @@ on the specified socket, by default the function shall block until the request
 can be satisfied.
 A non-blocking receive can be obtained by setting dont.wait to TRUE
 If there are no messages available on the specified socket, the
-receive.socket() call will return NULL immediately.
+nn.recv() call will return NULL immediately.
 
 }
 \usage{
-receive.socket(socket, unserialize=TRUE, dont.wait=FALSE)
+nn.recv(socket, unserialize=TRUE, dont.wait=FALSE)
 receive.null.msg(socket)
 receive.string(socket)
 receive.int(socket)
@@ -33,8 +33,8 @@ receive.double(socket)
 \value{
   the value sent from the remote server or NULL on failure.
   If dont.wait was TRUE and a message was not immediately
-  available for receipt, NULL is returned and get.zmq.errno() is set to 11
-  or get.zmq.strerror() is set to EAGAIN.
+  available for receipt, NULL is returned and get.nn[.]errno() is set to 11
+  or get.nn[.]strerror() is set to EAGAIN.
 }
 \references{
 http://www.zeromq.org
@@ -43,25 +43,25 @@ http://zguide.zeromq.org/page:all
 }
 \author{
 ZMQ was written by Martin Sustrik <sustrik@250bpm.com> and Martin Lucina <mato@kotelna.sk>.
-rzmq was written by Whit Armstrong.
+nanomsgardvark was written by Whit Armstrong.
 }
 \seealso{
-  \code{\link{connect.socket},\link{bind.socket},\link{receive.socket},\link{send.socket},\link{poll.socket}}
+  \code{\link{nn.connect},\link{nn.bind},\link{nn.recv},\link{nn.send},\l}
 }
 \examples{\dontrun{
-library(rzmq)
+library(nanomsgardvark)
 
 remote.exec <- function(out.socket,in.socket,fun,...) {
-    send.socket(out.socket,data=list(fun=fun,args=list(...)))
-    receive.socket(in.socket)
+    nn.send(out.socket,data=list(fun=fun,args=list(...)))
+    nn.recv(in.socket)
 }
 
 context = init.context()
 out.socket = init.socket(context,"ZMQ_PUSH")
-bind.socket(out.socket,"tcp://*:5557")
+nn.bind(out.socket,"tcp://*:5557")
 
 in.socket = init.socket(context,"ZMQ_PULL")
-bind.socket(in.socket,"tcp://*:5558")
+nn.bind(in.socket,"tcp://*:5558")
 
 
 myfun <- function(x) {

@@ -13,7 +13,7 @@
 \alias{set.rcvbuf}
 \alias{set.linger}
 \alias{set.reconnect.ivl}
-\alias{set.zmq.backlog}
+\alias{set.nn[.]backlog}
 \alias{set.reconnect.ivl.max}
 \alias{get.rcvmore}
 \alias{get.send.timeout}
@@ -43,7 +43,7 @@ set.sndbuf(socket, option.value)
 set.rcvbuf(socket, option.value)
 set.linger(socket, option.value)
 set.reconnect.ivl(socket, option.value)
-set.zmq.backlog(socket, option.value)
+set.nn[.]backlog(socket, option.value)
 set.reconnect.ivl.max(socket, option.value)
 get.rcvmore(socket)
 get.send.timeout(socket)
@@ -66,15 +66,15 @@ set.send.timeout(socket, option.value)
 }
 \author{
   ZMQ was written by Martin Sustrik <sustrik@250bpm.com> and Martin Lucina <mato@kotelna.sk>.
-  rzmq was written by Whit Armstrong.
+  nanomsgardvark was written by Whit Armstrong.
 }
 
 \seealso{
-  \code{\link{connect.socket},\link{bind.socket},\link{receive.socket},\link{send.socket},\link{poll.socket}}
+  \code{\link{nn.connect},\link{nn.bind},\link{nn.recv},\link{nn.send}}
 }
 \examples{\dontrun{
 
-library(rzmq)
+library(nanomsgardvark)
 context = init.context()
 socket = init.socket(context,"ZMQ_REQ")
 

@@ -1,6 +1,6 @@
-\name{zmq.error}
-\alias{zmq.errno}
-\alias{zmq.strerror}
+\name{nn.errno}
+\alias{nn.errno}
+\alias{nn.strerror}
 \title{
   get libzmq error numbers and error strings
 }
@@ -8,12 +8,12 @@
   return the error number or error description after a zmq call
 }
 \usage{
-zmq.errno()
-zmq.strerror()
+nn.errno()
+nn.strerror()
 }
 
 \value{
-  an integer for zmq.errno or a string for zmq.strerror
+  an integer for nn.errno or a string for nn.strerror
 }
 \references{
   http://www.zeromq.org
@@ -22,17 +22,17 @@ zmq.strerror()
 }
 \author{
   ZMQ was written by Martin Sustrik <sustrik@250bpm.com> and Martin Lucina <mato@kotelna.sk>.
-  rzmq was written by Whit Armstrong.
+  nanomsgardvark was written by Whit Armstrong.
 }
 
 \seealso{
-  \code{\link{connect.socket},\link{bind.socket},\link{receive.socket},\link{send.socket}}
+  \code{\link{nn.connect},\link{nn.bind},\link{nn.recv},\link{nn.send}}
 }
 
 \examples{\dontrun{
 
-library(rzmq)
-zmq.errno()
-zmq.strerror()
+library(nanomsgardvark)
+nn.errno()
+nn.strerror()
 }}
 \keyword{utilities}

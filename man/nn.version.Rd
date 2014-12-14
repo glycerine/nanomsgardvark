@@ -1,35 +1,34 @@
-\name{zmq.version}
-\alias{zmq.version}
+\name{nn.version}
+\alias{nn.version}
 \title{
-  get version of libzmq
+  get version of libnanomsg
 }
 \description{
-  return the version string of the system zmq library
+  return the version string of the system nanomsg library
 }
 \usage{
-zmq.version()
+nn.version()
 }
 
 \value{
-  a string of the following format: major.minor.patch
+  a string of the following format: NN_VERSION_CURRENT.NN_VERSION_REVISION
 }
 \references{
-  http://www.zeromq.org
-  http://api.zeromq.org
-  http://zguide.zeromq.org/page:all
+  http://nanomsg.org
 }
 \author{
-  ZMQ was written by Martin Sustrik <sustrik@250bpm.com> and Martin Lucina <mato@kotelna.sk>.
-  rzmq was written by Whit Armstrong.
+nanomsg was written by Martin Sustrik <sustrik@250bpm.com>.
+nanomsgardvark was written by Jason E. Aten.
 }
 
 \seealso{
-  \code{\link{connect.socket},\link{bind.socket},\link{receive.socket},\link{send.socket}}
+  \code{\link{nn.connect},\link{nn.bind},\link{nn.recv},\link{nn.send}}
 }
 
 \examples{\dontrun{
 
-library(rzmq)
-zmq.version()
+library(nanomsgardvark)
+nn.version()
+
 }}
 \keyword{utilities}
