@@ -87,7 +87,8 @@ nn.getsockopt(socket, level, option)
 }
 \value{
   If the function succeeds the value of the option is returned. Otherwise,
-an error is thrown and 'errno' is set to to one of the values
+  depending on the error, an exception may be thrown, or -1 may be
+  returned and 'errno' is set to to one of the values
   defined below. You can use nn.errno(), nn.strerror(), and
   nn.clearerr() to manage errno. Possible errno values are:
 

@@ -1,28 +1,34 @@
 \name{nn.errno}
 \alias{nn.errno}
 \alias{nn.strerror}
+\alias{nn.clearerr}
 \title{
-  get libzmq error numbers and error strings
+  get nanomsg error numbers and error strings
 }
 \description{
-  return the error number or error description after a zmq call
+  nn.errno() returns the error number in the 
+  global 'errno' value. Useful after a nanomsg (nanomsgardvark) call.
+
+  nn.strerror() returns a string description of the value of errno.
+
+  nn.clearerr() sets errno to 0.
 }
 \usage{
 nn.errno()
 nn.strerror()
+nn.clearerr()
 }
 
 \value{
-  an integer for nn.errno or a string for nn.strerror
+  an integer for nn.errno() or a string for nn.strerror(). nn_clearerr()
+  returns null.
 }
 \references{
-  http://www.zeromq.org
-  http://api.zeromq.org
-  http://zguide.zeromq.org/page:all
+  http://nanomsg.org
 }
 \author{
-  ZMQ was written by Martin Sustrik <sustrik@250bpm.com> and Martin Lucina <mato@kotelna.sk>.
-  nanomsgardvark was written by Whit Armstrong.
+nanomsg was written by Martin Sustrik <sustrik@250bpm.com>.
+nanomsgardvark was written by Jason E. Aten.
 }
 
 \seealso{
@@ -34,5 +40,6 @@ nn.strerror()
 library(nanomsgardvark)
 nn.errno()
 nn.strerror()
+nn.clearerr()
 }}
 \keyword{utilities}
