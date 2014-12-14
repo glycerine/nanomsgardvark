@@ -70,7 +70,7 @@ set.send.timeout(socket, option.value)
 }
 
 \seealso{
-  \code{\link{nn.connect},\link{nn.bind},\link{nn.recv},\link{nn.send},\l}
+  \code{\link{nn.connect},\link{nn.bind},\link{nn.recv},\link{nn.send}}
 }
 \examples{\dontrun{
 
