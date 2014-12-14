@@ -12,7 +12,7 @@ Introduction
 Purpose
 =======
 
-rnanomsg is an R binding for Nanomsg (http://nanomsg.org/).
+rnanomsg is an R binding for nanomsg (http://nanomsg.org/).
 
 rnanomsg was initially derived from the rzmq bindings for ZeroMQ by Whit Armstrong (https://github.com/armstrtw/rzmq). While rnanomsg has diverged significantly, some (most) of the docs are yet to be ported from zmq to nanomsg yet. In general the rnanomsg calls match the original nanomsg C calls exactly, so the nanomsg documentation is most useful.
 
