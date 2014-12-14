@@ -55,6 +55,8 @@ execute this R script on the remote server::
            stop(paste("problem with nn.send", nn.strerror()))    
         }
 	}
+    # when you are done, remember to:
+    nn.close(s.rep)
 	
 and execute this bit locally::
 
@@ -74,3 +76,6 @@ and execute this bit locally::
     }
 	ans <- remote.exec(s.req,sqrt,10000)
 	
+    # when done, remember to
+    nn.close(s.req)
+
