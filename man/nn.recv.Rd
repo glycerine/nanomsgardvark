@@ -6,10 +6,12 @@ into an R object).
 }
 \description{
 
-Receive a message from the socket 's'. nanomsgardvark uses the
+Receive a message from the socket. nanomsgardvark uses the
 underlying NN_MSG facility to ask nanomsg to allocate the appropriately
 sized buffer for the incoming message. We then copy the bytes into an R
-object and return the provided buffer with nn_freemsg().
+raw bytes (RAWSXP) object and return the provided buffer with
+nn_freemsg(). If unserialize is left at its default TRUE, the raw bytes
+are finally unserialized into a R object before being returned to the caller.
 
 
 The dont.wait argument specifies that the operation should be performed in non-blocking mode. If the
