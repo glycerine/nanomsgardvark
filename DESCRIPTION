@@ -1,4 +1,4 @@
-Package: ardvark
+Package: nanomsgardvark
 Title: R Bindings for Nanomsg
 Version: 0.0.1
 Maintainer: Jason E. Aten <j.e.aten@gmail.com>
@@ -6,5 +6,5 @@ Author: Jason E. Aten <j.e.aten@gmail.com>
 Description: Interface to the Nanomsg lightweight messaging kernel (see <http://nanomsg.org/> for more information).
 License: GPL-3
 SystemRequirements: Nanomsg library (http://nanomsg.org/).
-URL: https://github.com/glycerine/ardvark
-BugReports: https://github.com/glycerine/ardvark/issues
+URL: https://github.com/glycerine/nanomsgardvark
+BugReports: https://github.com/glycerine/nanomsgardvark/issues

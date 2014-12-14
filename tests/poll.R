@@ -1,4 +1,4 @@
-library(ardvark)
+library(nanomsgardvark)
 
 # nanomsg endpoint to use in tests cases.
 test.ENDPOINT <- "inproc://poll"
@@ -15,7 +15,7 @@ assert.fails <- function(expr, message="Assertion Failed") {
 
 
 # A basic test of poll functionality with nn.recv()
-test.ardvark.poll.basic <- function() {
+test.nanomsgardvark.poll.basic <- function() {
     s.rep <- nn.socket(nn.AF_SP, nn.REP)
     s.req <- nn.socket(nn.AF_SP, nn.REQ)
 
@@ -51,4 +51,4 @@ test.ardvark.poll.basic <- function() {
 
 
 # Run tests.
-test.ardvark.poll.basic()
+test.nanomsgardvark.poll.basic()
