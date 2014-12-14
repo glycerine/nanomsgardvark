@@ -1,4 +1,5 @@
 \name{nn.setsockopt}
+\alias{nn.setsockopt}
 \title{
   set a socket option.
 }
