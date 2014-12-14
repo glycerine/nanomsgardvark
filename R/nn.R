@@ -1,6 +1,6 @@
 ###########################################################################
 ## Copyright (C) 2014  Jason E. Aten                                     ##
-##  ardvark is derived from rzmq, which is                              ##
+##  nanomsgardvark is derived from rzmq, which is                              ##
 ## Copyright (C) 2011  Whit Armstrong, and both are licensed             ##
 ##  under the GPL-3.                                                     ##
 ##                                                                       ##
@@ -19,51 +19,51 @@
 ###########################################################################
 
 nn.version <- function() {
-    .Call("nnVersion", PACKAGE="ardvark")
+    .Call("nnVersion", PACKAGE="nanomsgardvark")
 }
 
 nn.errno <- function() {
-    .Call("nnErrno", PACKAGE="ardvark")
+    .Call("nnErrno", PACKAGE="nanomsgardvark")
 }
 
 nn.clearerr <- function() {
-  invisible(.Call("nnClearErrno", PACKAGE="ardvark"))
+  invisible(.Call("nnClearErrno", PACKAGE="nanomsgardvark"))
 }
 
 nn.strerror <- function() {
-    .Call("nnStrerror", PACKAGE="ardvark")
+    .Call("nnStrerror", PACKAGE="nanomsgardvark")
 }
 
 nn.socket <- function(domain, socket.type) {
-  .Call("nnSocket", domain, socket.type, PACKAGE="ardvark")
+  .Call("nnSocket", domain, socket.type, PACKAGE="nanomsgardvark")
 }  
 
 nn.close <- function(socket) {
-  invisible(.Call("nnClose", socket, PACKAGE="ardvark"))
+  invisible(.Call("nnClose", socket, PACKAGE="nanomsgardvark"))
 }  
 
 nn.term <- function() {
-    .Call("nnTerm", PACKAGE="ardvark")
+    .Call("nnTerm", PACKAGE="nanomsgardvark")
 }
 
 nn.bind <- function(socket, address) {
-    invisible(.Call("nnBind", socket, address, PACKAGE="ardvark"))
+    invisible(.Call("nnBind", socket, address, PACKAGE="nanomsgardvark"))
 }
 
 nn.connect <- function(socket, address) {
-    invisible(.Call("nnConnect", socket, address, PACKAGE="ardvark"))
+    invisible(.Call("nnConnect", socket, address, PACKAGE="nanomsgardvark"))
 }
 
 nn.shutdown <- function(socket, how) {
-    invisible(.Call("nnShutdown", socket, how, PACKAGE="ardvark"))
+    invisible(.Call("nnShutdown", socket, how, PACKAGE="nanomsgardvark"))
 }
 
 nn.getsockopt <- function(socket, level, option) {
-    invisible(.Call("nnGetSockOpt", socket, level, option, PACKAGE="ardvark"))
+    invisible(.Call("nnGetSockOpt", socket, level, option, PACKAGE="nanomsgardvark"))
 }
 
 nn.setsockopt <- function(socket, level, option, optval) {
-    invisible(.Call("nnSetSockOpt", socket, level, option, optval, PACKAGE="ardvark"))
+    invisible(.Call("nnSetSockOpt", socket, level, option, optval, PACKAGE="nanomsgardvark"))
 }
 
 nn.send <- function(socket, data, dont.wait=FALSE, serialize=TRUE) {
@@ -71,11 +71,11 @@ nn.send <- function(socket, data, dont.wait=FALSE, serialize=TRUE) {
         data <- serialize(data,NULL)
     }
 
-    invisible(.Call("nnSend", socket, data, dont.wait, PACKAGE="ardvark"))
+    invisible(.Call("nnSend", socket, data, dont.wait, PACKAGE="nanomsgardvark"))
 }
 
 nn.recv <- function(socket, unserialize=TRUE, dont.wait=FALSE) {
-    ans <- .Call("nnRecv", socket, dont.wait, PACKAGE="ardvark")
+    ans <- .Call("nnRecv", socket, dont.wait, PACKAGE="nanomsgardvark")
 
     if (!is.null(ans) && is.integer(ans)) {
       # we get integers back on error, probably EAGAIN.
@@ -124,7 +124,7 @@ nn.is.bind.err <- function(ans) {
 
 # nn() simply looks up integer constants in the nanomsg library.
 nn <- function(name) {
-    .Call("nn", name, PACKAGE="ardvark")
+    .Call("nn", name, PACKAGE="nanomsgardvark")
 }
 
 # nn.genconst(): generate distinguished constants used by nanomsg
@@ -230,7 +230,7 @@ nn.genconst <- function() {
 
   res = c()
   for (name in clist) {
-       b = paste(name[[1]], " <- as.integer(", .Call("nn", name[[2]], PACKAGE="ardvark"), ")",sep="")
+       b = paste(name[[1]], " <- as.integer(", .Call("nn", name[[2]], PACKAGE="nanomsgardvark"), ")",sep="")
        res = c(res, b)
        eval.parent(parse(text=b))
   }
