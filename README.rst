@@ -3,7 +3,7 @@ Introduction
 ************
 
 :Date: Dec 13, 2014
-:Authors: Jason E. Aten
+:Authors: Jason E. Aten, Ph.D.
 :Contact: j.e.aten@gmail.com
 :Web site: http://github.com/glycerine/rnanomsg
 :License: GPL-3
