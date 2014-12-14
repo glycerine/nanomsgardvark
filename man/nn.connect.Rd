@@ -1,53 +1,67 @@
-\name{connect.socket}
-\alias{connect.socket}
+\name{nn.connect}
+\alias{nn.connect}
 \title{
-Connect the socket referenced by the socket argument to the endpoint specified by the endpoint argument.
+add a remote endpoint to the socket.
 }
 \description{
-  The zmq_connect() function shall connect the socket referenced by the socket argument to the endpoint specified by the endpoint argument.
+  Adds a remote endpoint to the socket 's'. The library would then try to connect
+to the specified remote endpoint.
 
-The endpoint argument is a string consisting of two parts as follows: transport ://address. The transport part specifies the underlying transport protocol to use. The meaning of the address part is specific to the underlying transport protocol selected.
+The 'addr' argument consists of two parts as follows: 'transport'`://`'address'.
+The 'transport' specifies the underlying transport protocol to use. The meaning
+of the 'address' part is specific to the underlying transport protocol.
 
-The following transports are defined:
+For the list of available transport protocols check the list on
+nanomsg manual page.
 
-inproc
-local in-process (inter-thread) communication transport, see zmq_inproc(7)
-ipc
-local inter-process communication transport, see zmq_ipc(7)
-tcp
-unicast transport using TCP, see zmq_tcp(7)
-pgm, epgm
-reliable multicast transport using PGM, see zmq_pgm(7)
-With the exception of ZMQ_PAIR sockets, a single socket may be connected to multiple endpoints using zmq_connect(), while simultaneously accepting incoming connections from multiple endpoints bound to the socket using zmq_bind(). Refer to zmq_socket(3) for a description of the exact semantics involved when connecting or binding a socket to multiple endpoints.
+Maximum length of the 'addr' parameter is specified by nn.SOCKADDR_MAX.
+
+Note that nn.connect() and nn.bind() may be called multiple times
+on the same socket thus allowing the socket to communicate with multiple
+heterogeneous endpoints.
+
 }
 \usage{
-connect.socket(socket, address)
+nn.connect(socket, address)
 }
 
 \arguments{
-  \item{socket}{a zmq socket object.}
-  \item{address}{a transport as described above.}
+  \item{socket}{a nanomsg socket object.}
+  \item{address}{a transport://address string.}
 }
-\value{TRUE if operation succeeds or FALSE if the operation fails}
+\value{
+If the function succeeds positive endpoint ID is returned. Endpoint ID can be
+later used to remove the endpoint from the socket via linknanomsg:nn_shutdown[3]
+function.
+
+If the function fails negative value is returned and 'errno' is set to to one of
+the values defined below.
+
+\item{EBADF}{The provided socket is invalid.}
+\item{EMFILE}{Maximum number of active endpoints was reached.}
+\item{EINVAL}{The syntax of the supplied address is invalid.}
+\item{ENAMETOOLONG}{The supplied address is too long.}
+\item{EPROTONOSUPPORT}{The requested transport protocol is not supported.}
+\item{ENODEV}{Address specifies a nonexistent interface.}
+\item{ETERM}{The library is terminating.}
+
+}
 \references{
-http://www.zeromq.org
-http://api.zeromq.org
-http://zguide.zeromq.org/page:all
+http://nanomsg.org
 }
 \author{
-ZMQ was written by Martin Sustrik <sustrik@250bpm.com> and Martin Lucina <mato@kotelna.sk>.
-rzmq was written by Whit Armstrong.
+nanomsg was written by Martin Sustrik <sustrik@250bpm.com>.
+nanomsgardvark was written by Jason E. Aten.
 }
 \seealso{
-  \code{\link{connect.socket},\link{bind.socket},\link{receive.socket},\link{send.socket},\link{poll.socket}}
+  \code{\link{nn.socket},\link{nn.connect},\link{nn.bind},\link{nn.recv},\link{nn.send}}
 }
 \examples{\dontrun{
-library(rzmq)
-context = init.context()
-in.socket = init.socket(context,"ZMQ_PULL")
-bind.socket(in.socket,"tcp://*:5557")
 
-out.socket = init.socket(context,"ZMQ_PUSH")
-bind.socket(out.socket,"tcp://*:5558")
+library(nanomsgardvark)
+s = nn.socket (nn.AF_SP, nn.NN_PUB);
+eid1 = nn.connect(s, "ipc:///tmp/test.ipc");
+eid2 = nn.connect(s, "tcp://server001:5560");
+
 }}
 \keyword{utilities}
