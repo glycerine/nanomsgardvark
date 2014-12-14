@@ -27,7 +27,7 @@ rnanomsg is a message queue for serialized R objects.
 Usage
 =====
 
-A minimal example of remote execution.
+A minimal example of sending code for remote execution.
 
 execute this R script on the remote server::
 	
@@ -42,7 +42,7 @@ execute this R script on the remote server::
 	while(1) {
         nn.clearerr()
 	    msg = nn.recv(s.rep);
-        if nn.is.recv.err(msg) {
+        if (nn.is.recv.err(msg)) {
            stop(paste("problem with nn.recv", nn.strerror()))
         }
 	    fun <- msg$fun
@@ -51,7 +51,7 @@ execute this R script on the remote server::
 	    ans <- do.call(fun,args)
         nn.clearerr()
 	    rc = nn.send(s.rep,ans);
-        if nn.is.send.err(rc) {
+        if (nn.is.send.err(rc)) {
            stop(paste("problem with nn.send", nn.strerror()))    
         }
 	}
