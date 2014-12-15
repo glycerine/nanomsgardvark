@@ -476,8 +476,8 @@ SEXP nnSetSockOpt(SEXP socket_, SEXP level_, SEXP option_, SEXP optval_) {
   if(TYPEOF(optval_) == INTSXP) {
     optval_int = INTEGER(optval_)[0];
   } else if (TYPEOF(optval_) == STRSXP) {
-    optval = CHAR(STRING_ELT(optval_,0)));
-    optvallen = strnlen(optval, 4096);
+    optval = (void*)CHAR(STRING_ELT(optval_,0));
+    optvallen = strnlen((char*)optval, 4096);
   } else {
     REprintf("optval must be either an integer or a string.\n");
     return R_NilValue;
@@ -486,6 +486,7 @@ SEXP nnSetSockOpt(SEXP socket_, SEXP level_, SEXP option_, SEXP optval_) {
   PROTECT(ans = allocVector(INTSXP,1)); 
   INTEGER(ans)[0] = nn_setsockopt(INTEGER(socket_)[0], level, option, optval, optvallen);
   UNPROTECT(1);
+
   return ans;
 }
 
