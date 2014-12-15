@@ -435,7 +435,8 @@ SEXP nnShutdown(SEXP socket_, SEXP how_) {
 SEXP nnSetSockOpt(SEXP socket_, SEXP level_, SEXP option_, SEXP optval_) {
   SEXP ans; 
   int level, option;
-  int optval;
+  int optval_int;
+  void* optval = &optval_int;
   size_t optvallen;
   optvallen = sizeof(int);
 
@@ -473,14 +474,17 @@ SEXP nnSetSockOpt(SEXP socket_, SEXP level_, SEXP option_, SEXP optval_) {
 
   // optval
   if(TYPEOF(optval_) == INTSXP) {
-    optval = INTEGER(optval_)[0];
+    optval_int = INTEGER(optval_)[0];
+  } else if (TYPEOF(optval_) == STRSXP) {
+    optval = CHAR(STRING_ELT(optval_,0)));
+    optvallen = strnlen(optval, 4096);
   } else {
-    REprintf("optval must be an integer (the *NN_SOCKET_NAME* option is not supported in nanomsgardvark).\n");
+    REprintf("optval must be either an integer or a string.\n");
     return R_NilValue;
   }
 
   PROTECT(ans = allocVector(INTSXP,1)); 
-  INTEGER(ans)[0] = nn_setsockopt(INTEGER(socket_)[0], level, option, &optval, optvallen);
+  INTEGER(ans)[0] = nn_setsockopt(INTEGER(socket_)[0], level, option, optval, optvallen);
   UNPROTECT(1);
   return ans;
 }
