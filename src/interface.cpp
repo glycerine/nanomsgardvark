@@ -537,13 +537,13 @@ SEXP nnGetSockOpt(SEXP socket_, SEXP level_, SEXP option_) {
     return R_NilValue;
   }
 
-  PROTECT(ans = allocVector(INTSXP,1)); 
   rc = nn_getsockopt(INTEGER(socket_)[0], level, option, &optval, &optvallen);
   if (rc == -1) {
-    UNPROTECT(1);
-    error("error in nnGetSockOpt(): '%s'.\n", nn_strerror(nn_errno()));
-    return R_NilValue;
+    //error("error in nnGetSockOpt(): '%s'.\n", nn_strerror(nn_errno()));
+    //return R_NilValue;
+    optval = rc;
   }
+  PROTECT(ans = allocVector(INTSXP,1)); 
   INTEGER(ans)[0] = optval;
   UNPROTECT(1);
   return ans;
