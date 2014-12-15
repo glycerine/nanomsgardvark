@@ -59,11 +59,11 @@ nn.shutdown <- function(socket, how) {
 }
 
 nn.getsockopt <- function(socket, level, option) {
-    invisible(.Call("nnGetSockOpt", socket, level, option, PACKAGE="nanomsgardvark"))
+    .Call("nnGetSockOpt", socket, level, option, PACKAGE="nanomsgardvark")
 }
 
 nn.setsockopt <- function(socket, level, option, optval) {
-    invisible(.Call("nnSetSockOpt", socket, level, option, optval, PACKAGE="nanomsgardvark"))
+    invisible(.Call("nnSetSockOpt", socket, level, option, as.integer(optval), PACKAGE="nanomsgardvark"))
 }
 
 nn.send <- function(socket, data, dont.wait=FALSE, serialize=TRUE) {
