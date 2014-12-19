@@ -86,11 +86,20 @@ nn.getsockopt(socket, level, option)
   \item{option}{name of the option to modify}
 }
 \value{
-  If the function succeeds the value of the option is returned. Otherwise,
-  depending on the error, an exception may be thrown, or -1 may be
-  returned and 'errno' is set to to one of the values
+  If the function succeeds the value of the option is returned. If
+  an error occurs, then -1 will be returned and 'errno' will be
+  set to to one of the values
   defined below. You can use nn.errno(), nn.strerror(), and
-  nn.clearerr() to manage errno. Possible errno values are:
+  nn.clearerr() to manage errno.
+
+  Note that -1 is a perfectly legitimate value for some option values.
+  If this is the case for your option, and -1 is received back, then
+  you must also check nn.errno() to determine if an
+  error has actually occurred--and you should also have do nn.clearerr()
+  prior to the call, to know that the error happened from the most
+  recent function call.
+  
+  Possible errno values are:
 
 \item{EBADF}{The provided socket is invalid.}
 \item{ENOPROTOOPT}{The option is unknown at the level indicated.}
