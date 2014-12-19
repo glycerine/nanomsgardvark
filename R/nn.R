@@ -62,8 +62,15 @@ nn.getsockopt <- function(socket, level, option) {
     .Call("nnGetSockOpt", socket, level, option, PACKAGE="nanomsgardvark")
 }
 
+nn.listen.and.serve <- function(socket, handler) {
+    .Call("nnListenAndServe", socket, handler, PACKAGE="nanomsgardvark")
+}
+
 nn.setsockopt <- function(socket, level, option, optval) {
-    invisible(.Call("nnSetSockOpt", socket, level, option, as.integer(optval), PACKAGE="nanomsgardvark"))
+    if (is.numeric(optval)) {
+      optval = as.integer(optval)
+    }
+    invisible(.Call("nnSetSockOpt", socket, level, option, optval, PACKAGE="nanomsgardvark"))
 }
 
 nn.send <- function(socket, data, dont.wait=FALSE, serialize=TRUE) {

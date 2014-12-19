@@ -45,6 +45,7 @@ extern "C" {
   SEXP nnGetSockOpt(SEXP socket_, SEXP level_, SEXP option_);
   SEXP nnSend(SEXP socket_, SEXP data_, SEXP dont_wait_);
   SEXP nnRecv(SEXP socket_, SEXP dont_wait_);
+  SEXP nnListenAndServe(SEXP socket_, SEXP handler_, SEXP environ_);
 }
 
 #endif // INTERFACE_HPP

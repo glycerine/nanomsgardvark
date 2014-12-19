@@ -21,6 +21,7 @@ export(
        nn.is.connect.err,
        nn.is.bind.err,
        nn.genconst,
+       nn.listen.and.serve,
        nn.NS_NAMESPACE,
        nn.NS_VERSION,
        nn.NS_DOMAIN,
