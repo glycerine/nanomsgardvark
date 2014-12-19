@@ -293,24 +293,22 @@ SEXP nnBind(SEXP socket_, SEXP address_) {
   return ans;
 }
 
+
 SEXP nnListenAndServe(SEXP socket_, SEXP handler_, SEXP environ_) {
   int sock = check_and_get_socket(socket_);
   int msglen = 0;
+  void* buf = 0;
 
   SEXP R_fcall, msg;
-  // if(!isFunction(handler_)) error("‘handler’ must be a function");
+  if(!isFunction(handler_)) error("‘handler’ must be a function");
   // if(!isEnvironment(environ_)) error("‘environ’ should be an environment");
 
   while(1) {
     // blocking read
     msglen = nn_recv(INTEGER(socket_)[0], &buf, NN_MSG, 0);
     if (msglen < 0) {
-      if (dont_wait && nn_errno() == EAGAIN) {
-        // ok fine, just try again later
-      } else {
         error("error in nnRecv(): '%s'.\n", nn_strerror(nn_errno()));
         return R_NilValue;
-      }
     }
     
     PROTECT(msg = allocVector(RAWSXP,msglen));
@@ -319,9 +317,12 @@ SEXP nnListenAndServe(SEXP socket_, SEXP handler_, SEXP environ_) {
       error("bad buf: message pointer is invalid, in nnListenAndServer() loop.\n");    
     }
 
+    // put msg into env that handler_ is called with.
+    defineVar(install("msg"), msg, environ_);
+
     // evaluate
-    PROTECT(R_fcall = eval(handler, msg, environ_));
-    UNPROTECT(2);
+    eval(handler_, environ_);
+    UNPROTECT(1);
   }
   
   return R_NilValue;

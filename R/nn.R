@@ -63,7 +63,7 @@ nn.getsockopt <- function(socket, level, option) {
 }
 
 nn.listen.and.serve <- function(socket, handler) {
-    .Call("nnListenAndServe", socket, handler, PACKAGE="nanomsgardvark")
+    .Call("nnListenAndServe", socket, handler, new.env(), PACKAGE="nanomsgardvark")
 }
 
 nn.setsockopt <- function(socket, level, option, optval) {
