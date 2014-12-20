@@ -294,7 +294,7 @@ SEXP nnBind(SEXP socket_, SEXP address_) {
 }
 
 
-SEXP nnListenAndServe(SEXP socket_, SEXP handler_, SEXP environ_) {
+SEXP nnListenAndServe(SEXP socket_, SEXP handler_, SEXP rho_) {
   int sock = check_and_get_socket(socket_);
   int msglen = 0;
   void* buf = 0;
@@ -302,11 +302,11 @@ SEXP nnListenAndServe(SEXP socket_, SEXP handler_, SEXP environ_) {
 
   SEXP R_fcall, msg;
   if(!isFunction(handler_)) error("‘handler’ must be a function");
-  if(!isEnvironment(environ_)) error("‘environ’ should be an environment");
+  if(!isEnvironment(rho_)) error("‘rho’ should be an environment");
 
   while(1) {
     // blocking read
-    REprintf("nnListenAndServe: just prior to blocking waiting for msg\n");
+    //REprintf("nnListenAndServe: just prior to blocking waiting for msg\n");
     msglen = nn_recv(INTEGER(socket_)[0], &buf, NN_MSG, 0);
     if (msglen < 0) {
         error("error in nnRecv(): '%s'.\n", nn_strerror(nn_errno()));
@@ -320,17 +320,17 @@ SEXP nnListenAndServe(SEXP socket_, SEXP handler_, SEXP environ_) {
     }
 
     // put msg into env that handler_ is called with.
-    defineVar(install("msg"), msg, environ_);
+    //defineVar(install("msg"), msg, rho_);
 
     // evaluate
-    REprintf("nnListenAndServe: got msg, just prior to eval.\n");
-    PROTECT(evalres = eval(handler_, environ_));
-    REprintf("nnListenAndServe: evalres = %p.\n",evalres);
-    REprintf("nnListenAndServe: done with eval.\n");
-    UNPROTECT(2);
-
-    // temp: to debug: return our value back from res
-    return evalres;
+    //REprintf("nnListenAndServe: got msg, just prior to eval.\n");
+    PROTECT(R_fcall = lang2(handler_, msg));
+    PROTECT(evalres = eval(R_fcall, rho_));
+    //REprintf("nnListenAndServe: evalres = %p.\n",evalres);
+    //REprintf("nnListenAndServe: done with eval.\n");
+    UNPROTECT(3);
+    // to debug: return our value back from res
+    //return evalres;
   }
   
   return R_NilValue;

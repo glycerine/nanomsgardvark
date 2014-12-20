@@ -26,7 +26,7 @@ assert.fails <- function(expr, message="Assertion Failed") {
     grover=43
     handler = function(msg) {
       cat(file=stderr(),"hanlder() called, on err\n")
-       print(paste("handler() sees msg = ", msg))
+       print(paste(sep="","handler() sees msg = '", unserialize(msg),"'"))
        grover<<-grover+1
     }
 
