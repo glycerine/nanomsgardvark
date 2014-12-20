@@ -23,10 +23,10 @@ assert.fails <- function(expr, message="Assertion Failed") {
     rc = nn.bind(s.pull, test.ENDPOINT)
     assert(rc > 0, "nn.bind() should return positive endpoint id")
 
-    grover=43
+    grover=0
     handler = function(msg) {
-      cat(file=stderr(),"hanlder() called, on err\n")
-       print(paste(sep="","handler() sees msg = '", unserialize(msg),"'"))
+       #cat(file=stderr(),"hanlder() called, on err\n")
+       #print(paste(sep="","handler() sees msg = '", unserialize(msg),"'"))
        grover<<-grover+1
     }
 
