@@ -17,19 +17,13 @@ assert.fails <- function(expr, message="Assertion Failed") {
 }
 
 
-    s.pull <- nn.socket(nn.AF_SP, nn.PULL)
+    s.push <- nn.socket(nn.AF_SP, nn.PUSH)
 
     nn.clearerr()
-    rc = nn.bind(s.pull, test.ENDPOINT)
-    assert(rc > 0, "nn.bind() should return positive endpoint id")
+    rc = nn.connect(s.push, test.ENDPOINT)
+    assert(rc > 0, "nn.connect() should return positive endpoint id")
 
-    grover=43
-    handler = function(msg) {
-      cat(file=stderr(),"hanlder() called, on err\n")
-       print(paste("handler() sees msg = ", msg))
-       grover<<-grover+1
-    }
+    msg="Hello from sendmsg.R"
 
-    print(paste("listening on ", test.ENDPOINT,"and calling back to handler"))
-    servrc <- nn.listen.and.serve(s.pull, handler)
-    # doesn't return does do call back on handler
+    nn.send(s.push,msg,serialize=T)
+
