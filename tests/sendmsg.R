@@ -9,8 +9,8 @@ library(nanomsgardvark)
 #test.ENDPOINT <- "ipc:///tmp/test.ipc"
 test.ENDPOINT <- "tcp://127.0.0.1:5551"
 # remote tcp: 25K msg/sec, at msg size 1010 bytes.
-# local tcp with R grep on each msg: 13K msg/sec, at msg size 1010 bytes.
-
+# local/remote tcp with R grep on each msg: 13.8K msg/sec, at msg size 1010 bytes.
+# same 13.8K msg/sec for unix domain
 
 # Testing helpers.
 assert <- function(condition, message="Assertion Failed") if(!condition) stop(message)
