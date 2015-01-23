@@ -22,6 +22,7 @@ export(
        nn.is.bind.err,
        nn.genconst,
        nn.listen.and.serve,
+       nn.tcpmuxd,
        nn.NS_NAMESPACE,
        nn.NS_VERSION,
        nn.NS_DOMAIN,

@@ -46,6 +46,7 @@ extern "C" {
   SEXP nnSend(SEXP socket_, SEXP data_, SEXP dont_wait_);
   SEXP nnRecv(SEXP socket_, SEXP dont_wait_);
   SEXP nnListenAndServe(SEXP socket_, SEXP handler_, SEXP rho_);
+  SEXP nnTcpmuxd(SEXP port_);
 }
 
 #endif // INTERFACE_HPP

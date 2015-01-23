@@ -238,6 +238,27 @@ SEXP nnClose(SEXP socket_) {
   return ans;
 }
 
+SEXP nnTcpmuxd(SEXP port_) {
+  int port;
+  if(TYPEOF(port_) != INTSXP && TYPEOF(port_) != REALSXP) {
+      error("port in call to nn.tcpmuxd(port) must be a non-negative integer.");
+  }
+  if (TYPEOF(port_) == REALSXP) {
+    port = int(REAL(port_)[0]);
+  } else {
+    port = INTEGER(port_)[0];
+  }
+  if (port < 0) {
+     error("port in call to nn.tcpmuxd(port) must be an non-negative integer.");
+  }
+
+  SEXP ans; PROTECT(ans = allocVector(INTSXP,1));
+  int rc = nn_tcpmuxd(port);
+  INTEGER(ans)[0] = rc;
+  UNPROTECT(1);
+  return ans;
+}
+
 SEXP nnTerm() {
   nn_term();
   return R_NilValue;

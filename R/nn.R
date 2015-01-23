@@ -129,6 +129,11 @@ nn.is.bind.err <- function(ans) {
   }
 }
 
+nn.tcpmuxd <- function(port) {
+    .Call("nnTcpmuxd", port, PACKAGE="nanomsgardvark")
+}
+
+
 # nn() simply looks up integer constants in the nanomsg library.
 nn <- function(name) {
     .Call("nn", name, PACKAGE="nanomsgardvark")
